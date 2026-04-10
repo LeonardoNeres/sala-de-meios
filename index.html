@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Sala de Meios</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+  <aside class="sidebar">
+    <h2>Menu</h2>
+    <button onclick="showTela('home')">Início</button>
+    <button onclick="showTela('banners')">Banners</button>
+  </aside>
+
+  <main class="content">
+    <h1>Sala de Meios</h1>
+
+    <section id="home" class="tela active home">
+      <div class="welcome">
+        <h2>Bem-vindo ao Sistema de Controle da Sala de Meios</h2>
+      </div>
+
+      <div class="contatos">
+        <h3>Contatos</h3>
+        <div class="cards-contato">
+          <div class="contato">Contato 1</div>
+          <div class="contato">Contato 2</div>
+          <div class="contato">Contato 3</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="banners" class="tela">
+      <div class="grid" id="gridCategorias"></div>
+    </section>
+
+    <section id="categoria" class="tela">
+
+      <h2 id="tituloCategoria"></h2>
+
+      <div class="top-bar">
+        <input id="idInput" placeholder="Nº">
+        <input id="nomeInput" placeholder="Nome">
+        <input id="imgInput" type="file">
+        <button onclick="adicionarBanner()" class="btn-add">Adicionar</button>
+      </div>
+
+      <div class="search-bar">
+        <input type="text" id="inputBusca" placeholder="Pesquisar por nome ou número..." oninput="filtrarBanners()">
+      </div>
+
+      <div class="area">
+        <div class="lista" id="lista"></div>
+
+        <div class="detalhe">
+          <h3 id="titulo">Selecione</h3>
+          <img id="imagem">
+          <p>Qtd: <span id="qtd">-</span></p>
+          <p>Status: <span id="status">-</span></p>
+
+          <div class="acoes">
+            <button onclick="cautelar()" class="btn amarelo">Cautelar</button>
+            <button onclick="descautelar()" class="btn verde">Descautelar</button>
+            <button onclick="editar()" class="btn cinza">Editar</button>
+            <button onclick="abrirModalExcluir()" class="btn vermelho">Excluir</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<div id="modalExcluir" class="modal">
+  <div class="modal-box">
+    <p>Deseja excluir este banner?</p>
+    <div class="modal-actions">
+      <button onclick="confirmarExclusao()" class="btn vermelho">Sim</button>
+      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalCautelar" class="modal">
+  <div class="modal-box">
+    <h3>Quem vai cautelar?</h3>
+    <input id="nomeCautelar" placeholder="Nome do militar">
+    <div class="modal-actions">
+      <button onclick="confirmarCautelar()" class="btn amarelo">Confirmar</button>
+      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div id="modalEditar" class="modal">
+  <div class="modal-box">
+    <h3>Editar Banner</h3>
+    <input id="editarId" placeholder="Número">
+    <input id="editarNome" placeholder="Nome">
+    <input id="editarImg" type="file">
+    <div class="modal-actions">
+      <button onclick="salvarEdicao()" class="btn verde">Salvar</button>
+      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
