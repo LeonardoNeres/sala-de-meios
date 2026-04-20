@@ -1,114 +1,182 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Sala de Meios</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<div class="container">
-
-  <aside class="sidebar">
-    <h2>Menu</h2>
-    <button onclick="showTela('home')">Início</button>
-    <button onclick="showTela('banners')">Banners</button>
-  </aside>
-
-  <main class="content">
-    <h1>Sala de Meios</h1>
-
-    <section id="home" class="tela active home">
-      <div class="welcome">
-        <h2>Bem-vindo ao Sistema de Controle da Sala de Meios</h2>
-      </div>
-
-      <div class="contatos">
-        <h3>Contatos</h3>
-        <div class="cards-contato">
-          <div class="contato">Contato 1</div>
-          <div class="contato">Contato 2</div>
-          <div class="contato">Contato 3</div>
+  <head>
+    <meta charset="UTF-8" />
+    <title>SGM - Sistema de Gestão de Meios</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="logo-area">
+          <h2>MENU</h2>
+          <span>Controle de Materiais</span>
         </div>
-      </div>
-    </section>
+        <nav>
+          <button onclick="showTela('home')">Início</button>
+          <button onclick="showTela('banners')">Banners</button>
+        </nav>
+      </aside>
 
-    <section id="banners" class="tela">
-      <div class="grid" id="gridCategorias"></div>
-    </section>
-
-    <section id="categoria" class="tela">
-
-      <h2 id="tituloCategoria"></h2>
-
-      <div class="top-bar">
-        <input id="idInput" placeholder="Nº">
-        <input id="nomeInput" placeholder="Nome">
-        <input id="imgInput" type="file">
-        <button onclick="adicionarBanner()" class="btn-add">Adicionar</button>
-      </div>
-
-      <div class="search-bar">
-        <input type="text" id="inputBusca" placeholder="Pesquisar por nome ou número..." oninput="filtrarBanners()">
-      </div>
-
-      <div class="area">
-        <div class="lista" id="lista"></div>
-
-        <div class="detalhe">
-          <h3 id="titulo">Selecione</h3>
-          <img id="imagem">
-          <p>Qtd: <span id="qtd">-</span></p>
-          <p>Status: <span id="status">-</span></p>
-
-          <div class="acoes">
-            <button onclick="cautelar()" class="btn amarelo">Cautelar</button>
-            <button onclick="descautelar()" class="btn verde">Descautelar</button>
-            <button onclick="editar()" class="btn cinza">Editar</button>
-            <button onclick="abrirModalExcluir()" class="btn vermelho">Excluir</button>
+      <main class="content">
+        <header
+          id="headerPrincipal"
+          class="header-militar-limpo header-home-absolute"
+        >
+          <div class="placeholder-img-grande">
+            <img
+              src="logo-bimec.png"
+              alt="Logo Esq"
+              onerror="this.style.display = 'none'"
+            />
+            <span class="label-fallback">IMG ESQ</span>
           </div>
+
+          <div class="placeholder-img-grande">
+            <img
+              src="logo-yaguaru.png"
+              alt="Logo Dir"
+              onerror="this.style.display = 'none'"
+            />
+            <span class="label-fallback">IMG DIR</span>
+          </div>
+        </header>
+
+        <section id="home" class="tela active">
+          <div class="hero-center">
+            <h2>SALA DE MEIOS</h2>
+            <p class="motto">"Braço Forte - Mão Amiga"</p>
+          </div>
+        </section>
+
+        <section id="banners" class="tela">
+          <div class="grid" id="gridCategorias"></div>
+        </section>
+
+        <section id="categoria" class="tela">
+          <h2 id="tituloCategoria"></h2>
+          <div class="top-bar">
+            <input id="idInput" placeholder="ID" />
+            <input id="nomeInput" placeholder="Nome do Banner" />
+            <input id="imgInput" type="file" />
+            <button onclick="adicionarBanner()" class="btn-add">
+              Adicionar
+            </button>
+          </div>
+          <div class="search-bar">
+            <input
+              type="text"
+              id="inputBusca"
+              placeholder="Filtrar por nome ou código..."
+              oninput="filtrarBanners()"
+            />
+          </div>
+          <div class="area">
+            <div class="lista" id="lista"></div>
+            <div class="detalhe">
+              <h3 id="titulo">Selecione um Item</h3>
+              <div class="img-container">
+                <img id="imagem" />
+              </div>
+
+              <div class="info-grid">
+                <p><strong>Quantidade:</strong> <span id="qtd">-</span></p>
+                <p><strong>Estado:</strong> <span id="status">-</span></p>
+              </div>
+              <div class="acoes">
+                <button onclick="cautelar()" class="btn btn-cautelar">
+                  Cautelar
+                </button>
+                <button onclick="descautelar()" class="btn btn-descautelar">
+                  Descautelar
+                </button>
+                <button onclick="editar()" class="btn btn-editar">
+                  Editar
+                </button>
+                <button onclick="abrirModalExcluir()" class="btn btn-excluir">
+                  Excluir
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="preview-container" class="preview-hover">
+      <img id="preview-img" src="" />
+    </div>
+
+    <footer class="footer-contatos">
+      <div class="footer-item"><strong>Suporte:</strong> (45) 9999-9999</div>
+      <div class="footer-item">
+        <strong>Instagram:</strong> @unidade_militar
+      </div>
+      <div class="footer-item">
+        <strong>E-mail:</strong> secao_meios@eb.mil.br
+      </div>
+    </footer>
+
+    <div id="modalExcluir" class="modal">
+      <div class="modal-box">
+        <p>Confirmar exclusão definitiva?</p>
+        <div class="modal-actions">
+          <button onclick="confirmarExclusao()" class="btn btn-excluir">
+            Sim</button
+          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Cancelar
+          </button>
         </div>
       </div>
-
-    </section>
-
-  </main>
-</div>
-
-<div id="modalExcluir" class="modal">
-  <div class="modal-box">
-    <p>Deseja excluir este banner?</p>
-    <div class="modal-actions">
-      <button onclick="confirmarExclusao()" class="btn vermelho">Sim</button>
-      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
     </div>
-  </div>
-</div>
-
-<div id="modalCautelar" class="modal">
-  <div class="modal-box">
-    <h3>Quem vai cautelar?</h3>
-    <input id="nomeCautelar" placeholder="Nome do militar">
-    <div class="modal-actions">
-      <button onclick="confirmarCautelar()" class="btn amarelo">Confirmar</button>
-      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
+    <div id="modalCautelar" class="modal">
+      <div class="modal-box">
+        <h3>Cautela Militar</h3>
+        <input id="nomeCautelar" placeholder="Nome / Graduação" />
+        <div class="modal-actions">
+          <button onclick="confirmarCautelar()" class="btn btn-cautelar">
+            Confirmar</button
+          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Cancelar
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-<div id="modalEditar" class="modal">
-  <div class="modal-box">
-    <h3>Editar Banner</h3>
-    <input id="editarId" placeholder="Número">
-    <input id="editarNome" placeholder="Nome">
-    <input id="editarImg" type="file">
-    <div class="modal-actions">
-      <button onclick="salvarEdicao()" class="btn verde">Salvar</button>
-      <button onclick="fecharModais()" class="btn cinza">Cancelar</button>
+    <div id="modalDescautelar" class="modal">
+      <div class="modal-box">
+        <h3>Recebimento de Material</h3>
+        <p>Informe quem está conferindo o retorno do banner:</p>
+        <input
+          id="nomeDescautelar"
+          placeholder="Nome / Graduação do Recebedor"
+        />
+        <div class="modal-actions">
+          <button onclick="confirmarDescautelar()" class="btn btn-descautelar">
+            Confirmar Retorno
+          </button>
+          <button onclick="fecharModais()" class="btn btn-cancelar">
+            Cancelar
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <div id="modalEditar" class="modal">
+      <div class="modal-box">
+        <h3>Editar Item</h3>
+        <input id="editarId" placeholder="ID" /><input
+          id="editarNome"
+          placeholder="Nome"
+        /><input id="editarImg" type="file" />
+        <div class="modal-actions">
+          <button onclick="salvarEdicao()" class="btn btn-descautelar">
+            Salvar</button
+          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
 
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
