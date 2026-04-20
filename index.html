@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SGM - Sistema de Gestão de Meios</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -15,6 +16,74 @@
         <nav>
           <button onclick="showTela('home')">Início</button>
           <button onclick="showTela('banners')">Banners</button>
+
+          <div
+            id="auth-section"
+            style="
+              margin-top: 20px;
+              border-top: 1px solid var(--coyote);
+              padding-top: 20px;
+            "
+          >
+            <div id="login-form">
+              <input
+                type="email"
+                id="email-login"
+                placeholder="Email Admin"
+                style="
+                  width: 100%;
+                  margin-bottom: 8px;
+                  padding: 10px;
+                  border-radius: 4px;
+                  border: none;
+                  background: var(--military-light);
+                  color: white;
+                "
+              />
+              <input
+                type="password"
+                id="pass-login"
+                placeholder="Senha"
+                style="
+                  width: 100%;
+                  margin-bottom: 8px;
+                  padding: 10px;
+                  border-radius: 4px;
+                  border: none;
+                  background: var(--military-light);
+                  color: white;
+                "
+              />
+              <button
+                onclick="fazerLogin()"
+                style="
+                  background: var(--coyote);
+                  color: var(--military-deep);
+                  font-weight: bold;
+                  width: 100%;
+                "
+              >
+                Acesso Admin
+              </button>
+            </div>
+            <div id="admin-logged" style="display: none; text-align: center">
+              <p
+                style="
+                  font-size: 0.8rem;
+                  margin-bottom: 10px;
+                  color: var(--coyote);
+                "
+              >
+                Logado como Admin
+              </p>
+              <button
+                onclick="fazerLogout()"
+                style="background: var(--danger); color: white; width: 100%"
+              >
+                Sair
+              </button>
+            </div>
+          </div>
         </nav>
       </aside>
 
@@ -29,16 +98,13 @@
               alt="Logo Esq"
               onerror="this.style.display = 'none'"
             />
-            <span class="label-fallback">IMG ESQ</span>
           </div>
-
           <div class="placeholder-img-grande">
             <img
               src="logo-yaguaru.png"
               alt="Logo Dir"
               onerror="this.style.display = 'none'"
             />
-            <span class="label-fallback">IMG DIR</span>
           </div>
         </header>
 
@@ -55,14 +121,16 @@
 
         <section id="categoria" class="tela">
           <h2 id="tituloCategoria"></h2>
-          <div class="top-bar">
-            <input id="idInput" placeholder="ID" />
+
+          <div class="top-bar admin-only">
+            <input id="idInput" placeholder="ID (Lote)" />
             <input id="nomeInput" placeholder="Nome do Banner" />
             <input id="imgInput" type="file" />
             <button onclick="adicionarBanner()" class="btn-add">
               Adicionar
             </button>
           </div>
+
           <div class="search-bar">
             <input
               type="text"
@@ -71,6 +139,7 @@
               oninput="filtrarBanners()"
             />
           </div>
+
           <div class="area">
             <div class="lista" id="lista"></div>
             <div class="detalhe">
@@ -78,12 +147,12 @@
               <div class="img-container">
                 <img id="imagem" />
               </div>
-
               <div class="info-grid">
                 <p><strong>Quantidade:</strong> <span id="qtd">-</span></p>
                 <p><strong>Estado:</strong> <span id="status">-</span></p>
               </div>
-              <div class="acoes">
+
+              <div class="acoes admin-only">
                 <button onclick="cautelar()" class="btn btn-cautelar">
                   Cautelar
                 </button>
@@ -103,49 +172,41 @@
       </main>
     </div>
 
-    <div id="preview-container" class="preview-hover">
-      <img id="preview-img" src="" />
-    </div>
-
-    <footer class="footer-contatos">
-      <div class="footer-item"><strong>Suporte:</strong> (45) 9999-9999</div>
-      <div class="footer-item">
-        <strong>Instagram:</strong> @unidade_militar
-      </div>
-      <div class="footer-item">
-        <strong>E-mail:</strong> secao_meios@eb.mil.br
-      </div>
-    </footer>
-
     <div id="modalExcluir" class="modal">
       <div class="modal-box">
-        <p>Confirmar exclusão definitiva?</p>
+        <h3>Excluir Item</h3>
+        <p>Confirmar exclusão definitiva do material?</p>
         <div class="modal-actions">
           <button onclick="confirmarExclusao()" class="btn btn-excluir">
-            Sim</button
-          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Sim, Excluir
+          </button>
+          <button onclick="fecharModais()" class="btn btn-cancelar">
             Cancelar
           </button>
         </div>
       </div>
     </div>
+
     <div id="modalCautelar" class="modal">
       <div class="modal-box">
         <h3>Cautela Militar</h3>
+        <p>Informe o militar que está retirando o material:</p>
         <input id="nomeCautelar" placeholder="Nome / Graduação" />
         <div class="modal-actions">
           <button onclick="confirmarCautelar()" class="btn btn-cautelar">
-            Confirmar</button
-          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Confirmar
+          </button>
+          <button onclick="fecharModais()" class="btn btn-cancelar">
             Cancelar
           </button>
         </div>
       </div>
     </div>
+
     <div id="modalDescautelar" class="modal">
       <div class="modal-box">
-        <h3>Recebimento de Material</h3>
-        <p>Informe quem está conferindo o retorno do banner:</p>
+        <h3>Retorno de Material</h3>
+        <p>Informe quem está conferindo a devolução:</p>
         <input
           id="nomeDescautelar"
           placeholder="Nome / Graduação do Recebedor"
@@ -160,23 +221,44 @@
         </div>
       </div>
     </div>
+
     <div id="modalEditar" class="modal">
       <div class="modal-box">
         <h3>Editar Item</h3>
-        <input id="editarId" placeholder="ID" /><input
-          id="editarNome"
-          placeholder="Nome"
-        /><input id="editarImg" type="file" />
+        <p>Altere os dados do banner selecionado:</p>
+        <input id="editarId" placeholder="ID" />
+        <input id="editarNome" placeholder="Nome" />
+        <label
+          style="
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            color: var(--coyote);
+          "
+          >Trocar Imagem (opcional):</label
+        >
+        <input id="editarImg" type="file" />
         <div class="modal-actions">
           <button onclick="salvarEdicao()" class="btn btn-descautelar">
-            Salvar</button
-          ><button onclick="fecharModais()" class="btn btn-cancelar">
+            Salvar Alterações
+          </button>
+          <button onclick="fecharModais()" class="btn btn-cancelar">
             Cancelar
           </button>
         </div>
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <footer class="footer-contatos">
+      <div class="footer-item">
+        <strong>Suporte:</strong> Seção de Informática
+      </div>
+      <div class="footer-item">
+        <strong>Unidade:</strong> Batalhão de Infantaria
+      </div>
+      <div class="footer-item"><strong>E-mail:</strong> meios@eb.mil.br</div>
+    </footer>
+
+    <script type="module" src="script.js"></script>
   </body>
 </html>
