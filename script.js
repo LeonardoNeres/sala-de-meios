@@ -71,14 +71,44 @@ window.initCategorias = function () {
   const grid = document.getElementById("gridCategorias");
   if (!grid) return;
   grid.innerHTML = "";
-  for (let i = 1; i <= 20; i++) {
-    const nome = "SUBSETOR " + i;
+
+  // 1. Crie a lista com os nomes reais aqui (adicione quantos quiser)
+  const nomesReais = [
+    "PROGRESSÃO DIURNA/NOTURNA",
+    "PATRULHA",
+    "ARMAMENTO 1",
+    "ARMAMENTO 2",
+    "ARMAMENTO 3",
+    "EXPOSIÇÃO 1",
+    "EXPOSIÇÃO 2",
+    "EXPOSIÇÃO 3",
+    "MISSÃO",
+    "HPPS 1",
+    "HPPS 2",
+    "TECNICAS ESPECIAIS 1",
+    "TECNICAS ESPECIAIS 2",
+    "TECNICAS ESPECIAIS 3",
+    "COMUNICAÇÕES",
+    "LATRINA",
+    "VIATURAS",
+    "ONU",
+    "TOPOGRAFIA",
+    "POBS",
+    "MANIBILIDADE DE GC",
+    "TFM",
+    "CONTROLE DE RODOVIAS"
+    // Continue a lista aqui separando por vírgula...
+  ];
+
+  // 2. O código agora percorre a sua lista em vez de contar até 20
+  nomesReais.forEach((nome) => {
+    categorias[nome] = []; // Inicializa a categoria na memória
     const div = document.createElement("div");
     div.className = "card";
     div.innerText = nome;
     div.onclick = () => abrirCategoria(nome);
     grid.appendChild(div);
-  }
+  });
 };
 
 window.showTela = function (id) {
