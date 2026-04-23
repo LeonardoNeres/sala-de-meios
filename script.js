@@ -84,7 +84,7 @@ window.initCategorias = function () {
     "EXPOSIÇÃO 3",
     "MISSÃO",
     "HPPS 1",
-    "HPPS 2",
+    "TRANSPOSIÇÃO DO CURSO D'ÁGUA",
     "TECNICAS ESPECIAIS 1",
     "TECNICAS ESPECIAIS 2",
     "TECNICAS ESPECIAIS 3",
