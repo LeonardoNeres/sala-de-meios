@@ -10,6 +10,7 @@ import {
   deleteDoc,
   doc,
   updateDoc,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import {
   getAuth,
@@ -141,6 +142,7 @@ window.render = async function (dadosManuais = null) {
       const q = query(
         collection(db, "banners"),
         where("categoria", "==", categoriaAtual),
+        orderBy("idLote", "asc")
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((docSnap) => {
@@ -338,6 +340,7 @@ window.filtrarBanners = async function () {
   const q = query(
     collection(db, "banners"),
     where("categoria", "==", categoriaAtual),
+    orderBy("idLote", "asc")
   );
   const snap = await getDocs(q);
   let lista = [];
