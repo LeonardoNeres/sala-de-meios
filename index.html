@@ -142,35 +142,30 @@
 
           <div class="area">
             <div class="lista" id="lista"></div>
-            <div class="detalhe">
-              <h3 id="titulo">Selecione um Item</h3>
-              <div class="img-container">
-                <img id="imagem" />
-              </div>
-              <div class="info-grid">
-                <p><strong>Quantidade:</strong> <span id="qtd">-</span></p>
-                <p><strong>Estado:</strong> <span id="status">-</span></p>
-              </div>
+<div class="detalhe">
+  <h3 id="titulo">Selecione um Item</h3>
+  <div class="img-container">
+    <img id="imagem" />
+  </div>
 
-              <div class="acoes admin-only">
-                <button onclick="cautelar()" class="btn btn-cautelar">
-                  Cautelar
-                </button>
-                <button onclick="descautelar()" class="btn btn-descautelar">
-                  Descautelar
-                </button>
-                <button onclick="editar()" class="btn btn-editar">
-                  Editar
-                </button>
-                <button onclick="abrirModalExcluir()" class="btn btn-excluir">
-                  Excluir
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
+  <div class="info-grid">
+    <div id="box-estado">
+      <strong>Estado:</strong> <span id="status">-</span>
     </div>
+
+    <div id="container-historico">
+      <strong style="color: #b9936c; margin-bottom: 5px; display: block; font-size: 0.8rem;">HISTÓRICO RECENTE:</strong>
+      <div id="historico-lista"></div>
+    </div>
+  </div>
+
+  <div class="acoes admin-only" style="margin-top: 15px;">
+    <button onclick="cautelar()" class="btn btn-cautelar">CAUTELAR</button>
+    <button onclick="descautelar()" class="btn btn-descautelar">DESCAUTELAR</button>
+    <button onclick="editar()" class="btn btn-editar">EDITAR</button>
+    <button onclick="abrirModalExcluir()" class="btn btn-excluir">EXCLUIR</button>
+  </div>
+</div>
 
     <div id="modalExcluir" class="modal">
       <div class="modal-box">

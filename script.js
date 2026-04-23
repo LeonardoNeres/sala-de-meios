@@ -18,6 +18,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 // 2. Configuração (Sua chave real)
 const firebaseConfig = {
@@ -137,8 +138,8 @@ window.abrirCategoria = async function (nome) {
 
 window.render = async function (dadosManuais = null) {
   const lista = document.getElementById("lista");
-  lista.innerHTML =
-    "<p style='padding:15px; color:white'>Carregando material...</p>";
+  if (!lista) return;
+  lista.innerHTML = "<p style='padding:15px; color:white'>Carregando material...</p>";
 
   let banners = [];
   if (dadosManuais) {
@@ -155,14 +156,17 @@ window.render = async function (dadosManuais = null) {
         banners.push({ docId: docSnap.id, ...docSnap.data() });
       });
     } catch (error) {
+      console.error(error);
       return alert("Erro ao carregar banners.");
     }
   }
 
-  lista.innerHTML = "";
+lista.innerHTML = "";
   banners.forEach((b) => {
     const div = document.createElement("div");
-    div.className = "item";
+    // Se não tiver status ou for diferente de Indisponível, ele assume 'disponivel'
+    const statusAtual = b.status === "Indisponível" ? "indisponivel" : "disponivel";
+    div.className = `item ${statusAtual}`;
     div.innerText = `ID: ${b.idLote} | ${b.nome}`;
     div.onclick = () => selecionar(b);
     lista.appendChild(div);
@@ -172,14 +176,31 @@ window.render = async function (dadosManuais = null) {
 window.selecionar = function (b) {
   selecionado = b;
   document.getElementById("titulo").innerText = b.nome.toUpperCase();
-  document.getElementById("qtd").innerText = b.qtd || 1;
+  
   const st = document.getElementById("status");
-  st.innerText =
-    b.status === "Indisponível" ? `CAUTELADO: ${b.responsavel}` : "DISPONÍVEL";
-  st.style.color = b.status === "Indisponível" ? "#f1c40f" : "#2ecc71";
+  st.innerText = b.status === "Indisponível" ? `${b.responsavel}` : "DISPONÍVEL";
+  st.style.color = b.status === "Indisponível" ? "#e74c3c" : "#2ecc71";
+  
   const img = document.getElementById("imagem");
   img.src = b.img;
   img.style.display = "block";
+
+  // Lógica do Histórico
+const listaHist = document.getElementById("historico-lista");
+  if (listaHist) {
+    listaHist.innerHTML = ""; 
+    // A TRAVA DE SEGURANÇA: Verifica se existe histórico antes de tentar ler
+    if (b.historico && Array.isArray(b.historico)) {
+      b.historico.slice(-6).reverse().forEach(item => {
+        const p = document.createElement("p");
+        p.style.marginBottom = "3px";
+        p.innerText = "• " + item;
+        listaHist.appendChild(p);
+      });
+    } else {
+      listaHist.innerHTML = "<span style='opacity:0.5'>Sem registros antigos.</span>";
+    }
+  }
 };
 
 // --- ADICIONAR (Base64) ---
@@ -302,28 +323,38 @@ window.confirmarCautelar = async function () {
   const nome = document.getElementById("nomeCautelar").value;
   if (!nome) return alert("Identifique o militar.");
 
+  const agora = new Date();
+  const registro = `Cautelado por ${nome} em ${agora.toLocaleDateString('pt-BR')} às ${agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
+
+  let hist = selecionado.historico || [];
+  hist.push(registro);
+  if (hist.length > 5) hist.shift(); // Apaga o 6º mais antigo
+
   await updateDoc(doc(db, "banners", selecionado.docId), {
     status: "Indisponível",
-    responsavel: nome,
+    responsavel: registro,
+    historico: hist
   });
-
-  fecharModais();
-  await render();
-  limparDetalhes();
+  fecharModais(); await render(); limparDetalhes();
 };
 
 window.confirmarDescautelar = async function () {
   const recebedor = document.getElementById("nomeDescautelar").value;
   if (!recebedor) return alert("Identifique quem recebeu.");
 
+  const agora = new Date();
+  const registro = `Descautelado por ${recebedor} em ${agora.toLocaleDateString('pt-BR')} às ${agora.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}`;
+
+  let hist = selecionado.historico || [];
+  hist.push(registro);
+  if (hist.length > 5) hist.shift(); // Mantém só os últimos 5
+
   await updateDoc(doc(db, "banners", selecionado.docId), {
     status: "Disponível",
     responsavel: null,
+    historico: hist
   });
-
-  fecharModais();
-  await render();
-  limparDetalhes();
+  fecharModais(); await render(); limparDetalhes();
 };
 
 // --- UTILITÁRIOS ---
@@ -336,7 +367,6 @@ window.fecharModais = function () {
 window.limparDetalhes = function () {
   selecionado = null;
   document.getElementById("titulo").innerText = "AGUARDANDO SELEÇÃO";
-  document.getElementById("qtd").innerText = "-";
   document.getElementById("status").innerText = "-";
   document.getElementById("imagem").style.display = "none";
 };

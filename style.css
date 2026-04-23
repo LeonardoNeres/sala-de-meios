@@ -253,14 +253,64 @@ body {
 .info-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 15px;
+  margin-top: -10px; /* Puxa tudo para cima para eliminar o espaço vago */
+  align-items: start;
 }
-.info-grid p {
+
+#status {
+  font-weight: bold;
+  font-size: 1rem;
+}
+.coluna-esquerda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Box do Estado: Sempre fininho */
+#box-estado {
   background: var(--military-deep);
-  padding: 10px;
+  padding: 10px 15px;
   border-radius: 4px;
-  font-size: 0.9rem;
+  margin-bottom: 8px; /* Espaço mínimo para os botões virem logo abaixo */
+  border-left: 4px solid var(--coyote);
+}
+
+/* Box do Histórico: Comprido para alinhar com os botões */
+#container-historico {
+  background: var(--military-deep);
+  padding: 12px;
+  border-radius: 4px;
+  height: 140px; /* Altura reduzida para alinhar com o bloco da esquerda */
+  display: flex;
+  flex-direction: column;
+}
+#historico-lista {
+  flex-grow: 1;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+#historico-lista p {
+    font-size: 0.8rem;
+    color: #ccc;
+    padding: 8px 0; /* Espaço entre o texto e a linha */
+    margin: 0;
+    border-bottom: 1px dashed rgba(185, 147, 108, 0.3); /* Tracejado sutil na cor coyote */
+    line-height: 1.4;
+}
+
+/* Remove o tracejado da última linha para não ficar sobrando embaixo */
+#historico-lista p:last-child {
+    border-bottom: none;
+}
+/* Ajuste dos botões para não bugarem */
+.acoes {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 0 !important; /* Mata o auto que estava esticando tudo */
 }
 
 /* MODAIS BONITOS */
@@ -384,4 +434,13 @@ body.logged-in .admin-only {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Cores da faixinha lateral baseadas no status */
+.item.disponivel {
+  border-left-color: #2ecc71 !important; /* Verde */
+}
+
+.item.indisponivel {
+  border-left-color: #e74c3c !important; /* Vermelho */
 }
