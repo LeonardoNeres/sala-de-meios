@@ -113,12 +113,18 @@ window.initCategorias = function () {
 };
 
 window.showTela = function (id) {
-  document
-    .querySelectorAll(".tela")
-    .forEach((t) => t.classList.remove("active"));
+  document.querySelectorAll(".tela").forEach((t) => t.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+
+  // Pega o rodapé e decide se mostra (flex) ou esconde (none)
+  const footer = document.querySelector(".footer-contatos");
+  if (footer) {
+    footer.style.display = (id === 'home') ? "flex" : "none";
+  }
+
   const header = document.getElementById("headerPrincipal");
   if (header) header.style.display = id === "home" ? "flex" : "none";
+  
   limparDetalhes();
 };
 
