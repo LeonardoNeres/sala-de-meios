@@ -8,6 +8,31 @@
   --overlay: rgba(0, 0, 0, 0.75);
 }
 
+/* --- SCROLL DA PÁGINA TODA --- */
+
+/* 1. Define a largura da barra lateral */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* 2. Cor do fundo (a parte fixa) */
+::-webkit-scrollbar-track {
+    background: #1a1a1a; 
+}
+
+/* 3. Cor da barra que desce (Amarelo Coyote) */
+::-webkit-scrollbar-thumb {
+    background-color: #b9936c; 
+    border-radius: 10px;
+    /* Esse border cria um efeito de 'margem' na barra */
+    border: 2px solid #1a1a1a; 
+}
+
+/* 4. Cor quando você clica ou passa o mouse */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #d4ab7d;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -277,35 +302,87 @@ body {
   border-left: 4px solid var(--coyote);
 }
 
+/* 1. O CONTAINER COM ALTURA PARA ~3 LINHAS */
 #container-historico {
     background: #1a1a1a;
-    padding: 15px;
+    padding: 10px 15px;
     border-radius: 4px;
-    /* MUDANÇA AQUI: de height fixo para min-height e flexibilidade */
-    min-height: 150px; 
-    height: auto;      
-    max-height: 250px; /* Impede que ele cresça infinito se tiver muito texto */
+    height: 115px !important; /* Altura fixa para forçar o scroll */
+    overflow-y: auto !important; 
     display: flex;
     flex-direction: column;
 }
-#historico-lista {
-  flex-grow: 1;
-  overflow-y: auto;
-  font-size: 0.8rem;
-  line-height: 1.3;
-}
-#historico-lista p {
-    font-size: 0.8rem;
-    color: #ccc;
-    padding: 8px 0; /* Espaço entre o texto e a linha */
-    margin: 0;
-    border-bottom: 1px dashed rgba(185, 147, 108, 0.3); /* Tracejado sutil na cor coyote */
-    line-height: 1.4;
+
+/* 2. LARGURA DA BARRA (DEIXA ELA FINA) */
+#container-historico::-webkit-scrollbar {
+    width: 6px !important;
 }
 
-/* Remove o tracejado da última linha para não ficar sobrando embaixo */
+/* 3. FUNDO DA BARRA (ONDE ELA CORRE) */
+#container-historico::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 10px;
+}
+
+/* 4. A PARTE QUE MOVE (AMARELO COYOTE) */
+#container-historico::-webkit-scrollbar-thumb {
+    background-color: #b9936c !important; /* Cor Coyote */
+    border-radius: 10px;
+    border: 1px solid #1a1a1a; /* Cria um respiro em volta da barra */
+}
+
+/* 5. QUANDO PASSA O MOUSE */
+#container-historico::-webkit-scrollbar-thumb:hover {
+    background-color: #d4ab7d !important;
+}
+#historico-lista {
+    flex-grow: 1;
+    overflow-y: auto !important; /* Força o scroll a aparecer */
+    max-height: 100px; /* Ajuste para mostrar ~3 linhas */
+    padding-right: 5px;
+}
+#historico-lista p {
+    font-size: 0.75rem; /* Diminuí um tiquinho para caber melhor na largura */
+    color: #ccc;
+    padding: 8px 0;
+    margin: 0;
+    border-bottom: 1px dashed rgba(185, 147, 108, 0.2);
+    line-height: 1.4;    /* Dá mais espaço entre as linhas do mesmo texto */
+    word-wrap: break-word; /* Força o texto a quebrar certo se for longo */
+    display: block;
+}
+#historico-lista p::first-letter {
+    color: #b9936c;
+    font-weight: bold;
+}
+
+/* Remove a borda do último para não sobrar espaço no final */
 #historico-lista p:last-child {
     border-bottom: none;
+}
+
+/* 2. LARGURA DA BARRA (Deixa ela fina) */
+#historico-lista::-webkit-scrollbar {
+    width: 6px !important;
+    display: block !important;
+}
+
+/* 3. FUNDO DA CANALETA (Onde a barra corre) */
+#historico-lista::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 10px;
+}
+
+/* 4. A BARRA QUE MOVE (Amarelo Coyote) */
+#historico-lista::-webkit-scrollbar-thumb {
+    background-color: #b9936c !important; /* Cor --coyote */
+    border-radius: 10px;
+    border: 1px solid #1a1a1a; /* Cria uma bordinha para não colar no fundo */
+}
+
+/* 5. EFEITO AO PASSAR O MOUSE */
+#historico-lista::-webkit-scrollbar-thumb:hover {
+    background-color: #d4ab7d !important;
 }
 
 .acoes {
