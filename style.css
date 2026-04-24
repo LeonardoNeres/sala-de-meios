@@ -277,14 +277,16 @@ body {
   border-left: 4px solid var(--coyote);
 }
 
-/* Box do Histórico: Comprido para alinhar com os botões */
 #container-historico {
-  background: var(--military-deep);
-  padding: 12px;
-  border-radius: 4px;
-  height: 140px; /* Altura reduzida para alinhar com o bloco da esquerda */
-  display: flex;
-  flex-direction: column;
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 4px;
+    /* MUDANÇA AQUI: de height fixo para min-height e flexibilidade */
+    min-height: 150px; 
+    height: auto;      
+    max-height: 250px; /* Impede que ele cresça infinito se tiver muito texto */
+    display: flex;
+    flex-direction: column;
 }
 #historico-lista {
   flex-grow: 1;
@@ -305,12 +307,12 @@ body {
 #historico-lista p:last-child {
     border-bottom: none;
 }
-/* Ajuste dos botões para não bugarem */
+
 .acoes {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 0 !important; /* Mata o auto que estava esticando tudo */
+    display: flex;
+    gap: 10px;
+    margin-top: 15px; /* Garante um respiro entre o box de cima e os botões */
+    flex-wrap: wrap;  /* Se a tela for muito pequena, eles pulam linha em vez de encavalar */
 }
 
 /* MODAIS BONITOS */
