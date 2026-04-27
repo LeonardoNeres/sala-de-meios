@@ -78,18 +78,12 @@ window.initCategorias = function () {
   const nomesReais = [
     "PROGRESSÃO DIURNA/NOTURNA",
     "PATRULHA",
-    "ARMAMENTO 1",
-    "ARMAMENTO 2",
-    "ARMAMENTO 3",
-    "EXPOSIÇÃO 1",
-    "EXPOSIÇÃO 2",
-    "EXPOSIÇÃO 3",
+    "ARMAMENTO",
+    "EXPOSIÇÃO",
     "MISSÃO",
-    "HPPS 1",
+    "HPPS",
     "TRANSPOSIÇÃO DO CURSO D'ÁGUA",
-    "TECNICAS ESPECIAIS 1",
-    "TECNICAS ESPECIAIS 2",
-    "TECNICAS ESPECIAIS 3",
+    "TECNICAS ESPECIAIS",
     "COMUNICAÇÕES",
     "LATRINA",
     "VIATURAS",
@@ -157,25 +151,59 @@ window.render = async function (dadosManuais = null) {
     banners = dadosManuais;
   } else {
     try {
-      const q = query(
-        collection(db, "banners"),
-        where("categoria", "==", categoriaAtual),
-        orderBy("idLote", "asc")
-      );
+      let q;
+      
+      // LÓGICA DE UNIFICAÇÃO DE CATEGORIAS
+      if (categoriaAtual === "ARMAMENTO") {
+        q = query(
+          collection(db, "banners"),
+          where("categoria", "in", ["ARMAMENTO", "ARMAMENTO 1", "ARMAMENTO 2", "ARMAMENTO 3"]),
+          orderBy("idLote", "asc")
+        );
+      } 
+      else if (categoriaAtual === "EXPOSIÇÃO") {
+        q = query(
+          collection(db, "banners"),
+          where("categoria", "in", ["EXPOSIÇÃO", "EXPOSIÇÃO 1", "EXPOSIÇÃO 2", "EXPOSIÇÃO 3"]),
+          orderBy("idLote", "asc")
+        );
+      }
+      else if (categoriaAtual === "TECNICAS ESPECIAIS") {
+        q = query(
+          collection(db, "banners"),
+          where("categoria", "in", ["TECNICAS ESPECIAIS", "TECNICAS ESPECIAIS 1", "TECNICAS ESPECIAIS 2", "TECNICAS ESPECIAIS 3"]),
+          orderBy("idLote", "asc")
+        );
+      }
+      else if (categoriaAtual === "HPPS") {
+        q = query(
+          collection(db, "banners"),
+          where("categoria", "in", ["HPPS", "HPPS 1"]),
+          orderBy("idLote", "asc")
+        );
+      }
+      else {
+        // Busca normal para as outras categorias que não foram unificadas
+        q = query(
+          collection(db, "banners"),
+          where("categoria", "==", categoriaAtual),
+          orderBy("idLote", "asc")
+        );
+      }
+
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((docSnap) => {
         banners.push({ docId: docSnap.id, ...docSnap.data() });
       });
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao buscar dados:", error);
       return alert("Erro ao carregar banners.");
     }
   }
 
-lista.innerHTML = "";
+  lista.innerHTML = "";
   banners.forEach((b) => {
     const div = document.createElement("div");
-    // Se não tiver status ou for diferente de Indisponível, ele assume 'disponivel'
     const statusAtual = b.status === "Indisponível" ? "indisponivel" : "disponivel";
     div.className = `item ${statusAtual}`;
     div.innerText = `ID: ${b.idLote} | ${b.nome}`;
