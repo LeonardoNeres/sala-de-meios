@@ -114,17 +114,28 @@ window.initCategorias = function () {
 };
 
 window.showTela = function (id) {
-  document.querySelectorAll(".tela").forEach((t) => t.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
+  // Esconde todas as telas limpando a classe active
+  document.querySelectorAll(".tela").forEach((t) => {
+    t.classList.remove("active");
+    t.style.display = "none"; // Garante o sumiço visual total
+  });
 
-  // Pega o rodapé e decide se mostra (flex) ou esconde (none)
+  // Mostra a tela correta
+  const telaAlvo = document.getElementById(id);
+  if (telaAlvo) {
+    telaAlvo.classList.add("active");
+    telaAlvo.style.display = "flex";
+  }
+
+  // Lógica do Rodapé: Só existe na 'home'
   const footer = document.querySelector(".footer-contatos");
   if (footer) {
     footer.style.display = (id === 'home') ? "flex" : "none";
   }
 
+  // Controle do Header
   const header = document.getElementById("headerPrincipal");
-  if (header) header.style.display = id === "home" ? "flex" : "none";
+  if (header) header.style.display = (id === "home") ? "flex" : "none";
   
   limparDetalhes();
 };
@@ -400,4 +411,4 @@ window.descautelar = () =>
   (document.getElementById("modalDescautelar").style.display = "flex");
 
 initCategorias();
-showTela("home");
+showTela('home');

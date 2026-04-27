@@ -132,13 +132,13 @@ body {
 }
 
 .hero-center {
-  height: 100vh;
+  flex: 1; /* Faz ela ocupar o espaço disponível da section pai */
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   text-align: center;
-  padding-top: 300px;
+  /* Remova o padding-top de 300px e o height: 100vh */
 }
 
 .hero-center h2 {
@@ -156,9 +156,14 @@ body {
   display: none;
   height: 100%;
   flex-direction: column;
+  overflow: hidden; /* Adicione isso aqui */
 }
+
 .tela.active {
   display: flex;
+  flex-direction: column;
+  min-height: 100%; /* Adicione isso */
+  justify-content: space-between; 
 }
 
 /* GRID & LISTS */
@@ -492,16 +497,34 @@ body.logged-in .admin-only {
 .footer-contatos {
   position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 250px; /* Largura da sua sidebar */
+  right: 0;
+  height: 40px; /* Altura fixa e fininha */
   background: var(--military-deep);
   color: var(--coyote);
-  display: none; /* Começa escondido */
+  display: none; /* O JS ativa apenas na Home */
   justify-content: center;
-  padding: 12px;
-  font-size: 0.75rem;
+  align-items: center;
   gap: 40px;
-  border-top: 2px solid var(--coyote);
-  z-index: 1000;
+  border-top: 1px solid var(--coyote);
+  z-index: 9999;
+}
+
+.footer-contatos-home {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%; /* Preenche toda a largura da section */
+  background: var(--military-deep);
+  padding: 10px 0;
+  border-top: 1px solid var(--coyote);
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+/* Garante que o conteúdo da home não fique escondido atrás do rodapé */
+#home.active {
+  padding-bottom: 50px; 
 }
 
 @keyframes modalIn {
