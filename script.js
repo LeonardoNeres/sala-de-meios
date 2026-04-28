@@ -441,3 +441,34 @@ window.descautelar = () =>
 
 initCategorias();
 showTela('home');
+
+// LÓGICA DE MENU - COPIE E SUBSTITUA O FINAL DO SEU JS
+const tratarMenu = () => {
+  const btn = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  const overlay = document.getElementById("overlay-menu");
+
+  if (!btn || !sidebar || !overlay) return;
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("active");
+  });
+
+  overlay.addEventListener("click", () => {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+
+  // Fecha ao clicar nos links da sidebar
+  sidebar.addEventListener("click", (e) => {
+    if (e.target.tagName === 'BUTTON') {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("active");
+    }
+  });
+};
+
+// Força a execução mesmo em módulos
+setTimeout(tratarMenu, 500);

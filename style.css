@@ -317,6 +317,15 @@ body {
     display: flex;
     flex-direction: column;
 }
+/* REGRA DEFINITIVA: Esconde o histórico em qualquer tela */
+#container-historico {
+    display: none !important;
+}
+
+/* Mostra apenas se o body tiver a classe de logado (Admin) */
+body.logged-in #container-historico {
+    display: block !important;
+}
 
 /* 2. LARGURA DA BARRA (DEIXA ELA FINA) */
 #container-historico::-webkit-scrollbar {
@@ -545,4 +554,185 @@ body.logged-in .admin-only {
 
 .item.indisponivel {
   border-left-color: #e74c3c !important; /* Vermelho */
+}
+
+@media (max-width: 768px) {
+    /* 1. DESTRAVA O SCROLL GERAL DO DISPOSITIVO */
+    html, body {
+        overflow-y: auto !important; 
+        overflow-x: hidden !important;
+        height: auto !important; 
+    }
+
+    .container {
+        display: block !important; 
+        height: auto !important;
+    }
+
+    /* 2. BOTÃO HAMBÚRGUER (FIXO E VISÍVEL) */
+    .hamburger-btn {
+        display: flex !important;
+        position: fixed !important;
+        top: 15px;
+        left: 15px;
+        z-index: 10001 !important;
+        background: var(--coyote) !important;
+        width: 45px;
+        height: 45px;
+        border-radius: 4px;
+        border: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    .hamburger-btn span {
+        display: block !important;
+        width: 25px !important;
+        height: 3px !important;
+        background: var(--military-deep) !important;
+        border-radius: 2px;
+    }
+
+    /* 3. SIDEBAR MOBILE */
+    .sidebar {
+        position: fixed !important;
+        left: -250px;
+        top: 0;
+        height: 100vh !important;
+        width: 250px !important;
+        z-index: 9998;
+        transition: 0.3s;
+    }
+    .sidebar.open { left: 0 !important; }
+
+    /* 4. CENTRALIZAÇÃO DA HOME (SALA DE MEIOS) */
+    #home.tela.active {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        height: 100dvh !important;
+        overflow: hidden !important;
+        position: fixed !important; /* <--- ADICIONE ESTA LINHA */
+        width: 100% !important;     /* <--- E ESTA PARA GARANTIR */
+        padding: 0 20px !important;
+        margin-top: -100px !important;
+    }
+
+    .hero-center {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        flex: 1 !important;
+    }
+
+    .hero-center h2 {
+        font-size: 2.5rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 10px !important;
+        letter-spacing: 4px !important;
+    }
+
+    .motto {
+        font-size: 1.2rem !important;
+        margin-top: 5px !important;
+    }
+
+    /* 5. BARRA DE ADICIONAR (ADMIN - TOP-BAR) */
+    .top-bar {
+        display: none !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+    }
+
+    body.logged-in .top-bar {
+        display: flex !important;
+    }
+
+    .top-bar input, 
+    .top-bar button.btn-add {
+        width: 100% !important;
+        height: 50px !important;
+        margin: 0 !important;
+    }
+
+    /* 6. CONTEÚDO E LISTAGENS */
+    header#headerPrincipal { display: none !important; }
+
+    .content {
+        padding: 80px 15px 100px 15px !important; 
+        width: 100% !important;
+        height: auto !important; 
+        min-height: 100vh;
+        overflow: visible !important;
+    }
+
+    .tela.active { display: block !important; }
+    .area { display: block !important; height: auto !important; }
+
+    .lista {
+        width: 100% !important;
+        max-height: 300px; 
+        overflow-y: auto !important;
+        margin-bottom: 20px;
+    }
+
+    .detalhe {
+        width: 100% !important;
+        height: auto !important;
+        padding: 15px;
+        background: #2a2d26 !important;
+        border-radius: 8px;
+    }
+
+    /* 7. IMAGEM E INFOS */
+    .img-container {
+        width: 100% !important;
+        height: auto !important;
+        min-height: 200px;
+        padding: 15px !important;
+        background: #1e201b !important;
+        border-radius: 6px;
+    }
+
+    #imagem { 
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+
+    .info-grid { display: block !important; }
+
+    /* 8. BOTÕES DE AÇÃO (CAUTELAR/EXCLUIR) */
+    .acoes {
+        display: none !important; 
+        flex-direction: column !important;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    body.logged-in .acoes { display: flex !important; }
+    .btn { width: 100% !important; padding: 15px !important; }
+
+    /* 9. FOOTER FIXO (CONTATOS) */
+    .footer-contatos-home {
+        position: fixed !important;
+        bottom: 0;
+        left: 0;
+        width: 100% !important;
+        height: 50px !important;
+        z-index: 9999;
+        background: #111 !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
 }
