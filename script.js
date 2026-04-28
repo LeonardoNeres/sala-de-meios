@@ -92,7 +92,8 @@ window.initCategorias = function () {
     "POBS",
     "MANIBILIDADE DE GC",
     "TFM",
-    "CONTROLE DE RODOVIAS"
+    "CONTROLE DE RODOVIAS",
+    "CUNHETE"
     // Continue a lista aqui separando por vírgula...
   ];
 
