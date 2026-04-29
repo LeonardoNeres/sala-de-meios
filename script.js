@@ -97,6 +97,26 @@ window.initCategorias = function () {
     // Continue a lista aqui separando por vírgula...
   ];
 
+  window.initDiversos = function () {
+  const grid = document.getElementById("gridDiversos");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  // Defina aqui as subcategorias que ficarão dentro de "Diversos"
+  const nomesDiversos = [
+    "OUTROS"
+  ];
+
+  nomesDiversos.forEach((nome) => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerText = nome;
+    // Reaproveita a função de abrir categoria que você já tem
+    div.onclick = () => abrirCategoria(nome); 
+    grid.appendChild(div);
+  });
+};
+
   // 2. O código agora percorre a sua lista em vez de contar até 20
   nomesReais.forEach((nome) => {
     categorias[nome] = []; // Inicializa a categoria na memória
@@ -440,6 +460,7 @@ window.descautelar = () =>
   (document.getElementById("modalDescautelar").style.display = "flex");
 
 initCategorias();
+initDiversos();
 showTela('home');
 
 // LÓGICA DE MENU - COPIE E SUBSTITUA O FINAL DO SEU JS
