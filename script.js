@@ -93,7 +93,8 @@ window.initCategorias = function () {
     "MANIBILIDADE DE GC",
     "TFM",
     "CONTROLE DE RODOVIAS",
-    "CUNHETE"
+    "CUNHETE",
+    "PLANO DE SEÇÃO"
     // Continue a lista aqui separando por vírgula...
   ];
 
