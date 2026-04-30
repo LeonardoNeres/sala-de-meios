@@ -106,6 +106,7 @@ window.initCategorias = function () {
   const nomesDiversos = [
     "ORIENTAÇÃO",
     "PATRULHA",
+    "IPT",
     "OUTROS"
   ];
 
