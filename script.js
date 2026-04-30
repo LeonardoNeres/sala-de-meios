@@ -105,7 +105,7 @@ window.initCategorias = function () {
   // Defina aqui as subcategorias que ficarão dentro de "Diversos"
   const nomesDiversos = [
     "ORIENTAÇÃO",
-    "PATRULHA",
+    "CAIXÃO DE AREIA",
     "IPT",
     "OUTROS"
   ];
