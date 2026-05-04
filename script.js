@@ -77,6 +77,7 @@ window.initCategorias = function () {
   // 1. Crie a lista com os nomes reais aqui (adicione quantos quiser)
   const nomesReais = [
     "PROGRESSÃO DIURNA/NOTURNA",
+    "ORIENTAÇÃO DIURNA/NOTURNA",
     "PATRULHA",
     "ARMAMENTO",
     "EXPOSIÇÃO",
