@@ -762,3 +762,12 @@ body.logged-in .admin-only {
         cursor: pointer;
     }
 }
+/* Efeito de destaque para o item ativo na lista */
+.item-selecionado {
+    background: var(--coyote) !important; /* Cor padrão do seu sistema */
+    color: var(--military-deep) !important;
+    border-left: 6px solid #fff !important; /* Uma borda branca para dar contraste[cite: 3] */
+    transform: translateX(8px); /* Ele dá um leve pulinho para a direita[cite: 3] */
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}

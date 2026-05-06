@@ -240,8 +240,21 @@ window.render = async function (dadosManuais = null) {
 
 window.selecionar = function (b) {
   selecionado = b;
+
+  // 1. LIMPEZA VISUAL: Remove o destaque de todos os itens da lista[cite: 2]
+  document.querySelectorAll("#lista .item").forEach(item => {
+    item.classList.remove("item-selecionado");
+  });
+
+  // 2. APLICAÇÃO DO DESTAQUE: Procura o item clicado/selecionado e ativa a cor[cite: 2]
+  const itensNaTela = Array.from(document.querySelectorAll("#lista .item"));
+  const itemAlvo = itensNaTela.find(i => i.innerText.includes(b.idLote));
+  if (itemAlvo) {
+    itemAlvo.classList.add("item-selecionado");
+  }
+
+  // 3. ATUALIZAÇÃO DOS DETALHES (Seu código original)[cite: 2]
   document.getElementById("titulo").innerText = b.nome.toUpperCase();
-  
   const st = document.getElementById("status");
   st.innerText = b.status === "Indisponível" ? `${b.responsavel}` : "DISPONÍVEL";
   st.style.color = b.status === "Indisponível" ? "#e74c3c" : "#2ecc71";
@@ -250,11 +263,9 @@ window.selecionar = function (b) {
   img.src = b.img;
   img.style.display = "block";
 
-  // Lógica do Histórico
-const listaHist = document.getElementById("historico-lista");
+  const listaHist = document.getElementById("historico-lista");
   if (listaHist) {
     listaHist.innerHTML = ""; 
-    // A TRAVA DE SEGURANÇA: Verifica se existe histórico antes de tentar ler
     if (b.historico && Array.isArray(b.historico)) {
       b.historico.slice(-6).reverse().forEach(item => {
         const p = document.createElement("p");
@@ -498,3 +509,29 @@ const tratarMenu = () => {
 
 // Força a execução mesmo em módulos
 setTimeout(tratarMenu, 500);
+
+// ESCUTADOR DAS SETAS DO TECLADO[cite: 2]
+document.addEventListener('keydown', (e) => {
+  // Só executa se a tela de categorias/banners estiver visível[cite: 1]
+  const telaCategoria = document.getElementById("categoria");
+  if (!telaCategoria || !telaCategoria.classList.contains("active")) return;
+
+  const itens = Array.from(document.querySelectorAll("#lista .item"));
+  if (itens.length === 0) return;
+
+  // Descobre em qual posição estamos na lista agora[cite: 2]
+  let index = itens.findIndex(i => selecionado && i.innerText.includes(selecionado.idLote));
+
+  if (e.key === "ArrowDown") {
+    e.preventDefault(); // Evita que a página role para baixo[cite: 3]
+    index = (index + 1 < itens.length) ? index + 1 : 0; // Vai para o próximo ou volta ao início
+    itens[index].click(); // Simula o clique (dispara a função selecionar acima)[cite: 2]
+    itens[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' }); // Segue o item com o scroll[cite: 3]
+  } 
+  else if (e.key === "ArrowUp") {
+    e.preventDefault();
+    index = (index - 1 >= 0) ? index - 1 : itens.length - 1; // Volta um ou vai para o fim
+    itens[index].click();
+    itens[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+});
