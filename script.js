@@ -429,25 +429,21 @@ window.limparDetalhes = function () {
   document.getElementById("imagem").style.display = "none";
 };
 
-window.filtrarBanners = async function () {
+window.filtrarBanners = function () {
   const termo = document.getElementById("inputBusca").value.toLowerCase();
-  const q = query(
-    collection(db, "banners"),
-    where("categoria", "==", categoriaAtual),
-    orderBy("idLote", "asc")
-  );
-  const snap = await getDocs(q);
-  let lista = [];
-  snap.forEach((d) => {
-    const data = d.data();
-    if (
-      data.nome.toLowerCase().includes(termo) ||
-      data.idLote.includes(termo)
-    ) {
-      lista.push({ docId: d.id, ...data });
+  
+  // Seleciona todos os itens da lista visual
+  const itens = document.querySelectorAll("#lista .item");
+
+  itens.forEach((item) => {
+    const texto = item.innerText.toLowerCase();
+    // Se o termo estiver no texto (ID ou Nome), mostra, se não, esconde
+    if (texto.includes(termo)) {
+      item.style.display = "block";
+    } else {
+      item.style.display = "none";
     }
   });
-  render(lista);
 };
 
 window.cautelar = () =>
