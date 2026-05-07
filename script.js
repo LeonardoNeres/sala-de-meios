@@ -288,7 +288,6 @@ window.adicionarBanner = async function () {
         status: "Disponível",
         dataCriacao: new Date(),
       });
-      alert("Salvo no Firestore!");
       idI.value = "";
       nomeI.value = "";
       imgI.value = "";
@@ -367,7 +366,7 @@ window.confirmarExclusao = async function () {
 
   try {
     await deleteDoc(doc(db, "banners", selecionado.docId));
-    
+
     fecharModais();
     limparDetalhes();
     await render();
