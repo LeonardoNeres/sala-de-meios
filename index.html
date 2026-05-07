@@ -147,16 +147,17 @@
 </section>
 
         <section id="categoria" class="tela">
-          <h2 id="tituloCategoria"></h2>
+  <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+    <h2 id="tituloCategoria" style="margin: 0;"></h2>
+    <span id="contadorBanners" class="badge-contador">0</span>
+  </div>
 
-          <div class="top-bar admin-only">
-            <input id="idInput" placeholder="ID (Lote)" />
-            <input id="nomeInput" placeholder="Nome do Banner" />
-            <input id="imgInput" type="file" />
-            <button onclick="adicionarBanner()" class="btn-add">
-              Adicionar
-            </button>
-          </div>
+  <div class="top-bar admin-only">
+    <input id="idInput" placeholder="ID (Lote)" />
+    <input id="nomeInput" placeholder="Nome do Banner" />
+    <input id="imgInput" type="file" />
+    <button onclick="adicionarBanner()" class="btn-add">Adicionar</button>
+  </div>
 
           <div class="search-bar">
             <input

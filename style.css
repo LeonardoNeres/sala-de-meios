@@ -771,3 +771,17 @@ body.logged-in .admin-only {
     transition: all 0.2s ease-in-out;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
+
+/* Estilo do Contador Redondo */
+.badge-contador {
+  background: var(--coyote);
+  color: var(--military-deep);
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 50px; /* Faz ficar oval/redondo */
+  min-width: 40px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  display: inline-block;
+}

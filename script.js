@@ -169,6 +169,8 @@ window.abrirCategoria = async function (nome) {
 
 window.render = async function (dadosManuais = null) {
   const lista = document.getElementById("lista");
+  const spanContador = document.getElementById("contadorBanners"); 
+  
   if (!lista) return;
   lista.innerHTML = "<p style='padding:15px; color:white'>Carregando material...</p>";
 
@@ -179,42 +181,17 @@ window.render = async function (dadosManuais = null) {
     try {
       let q;
       
-      // LÓGICA DE UNIFICAÇÃO DE CATEGORIAS
+      // Mantendo sua lógica de categorias unificadas
       if (categoriaAtual === "ARMAMENTO") {
-        q = query(
-          collection(db, "banners"),
-          where("categoria", "in", ["ARMAMENTO", "ARMAMENTO 1", "ARMAMENTO 2", "ARMAMENTO 3"]),
-          orderBy("idLote", "asc")
-        );
-      } 
-      else if (categoriaAtual === "EXPOSIÇÃO") {
-        q = query(
-          collection(db, "banners"),
-          where("categoria", "in", ["EXPOSIÇÃO", "EXPOSIÇÃO 1", "EXPOSIÇÃO 2", "EXPOSIÇÃO 3"]),
-          orderBy("idLote", "asc")
-        );
-      }
-      else if (categoriaAtual === "TECNICAS ESPECIAIS") {
-        q = query(
-          collection(db, "banners"),
-          where("categoria", "in", ["TECNICAS ESPECIAIS", "TECNICAS ESPECIAIS 1", "TECNICAS ESPECIAIS 2", "TECNICAS ESPECIAIS 3"]),
-          orderBy("idLote", "asc")
-        );
-      }
-      else if (categoriaAtual === "HPPS") {
-        q = query(
-          collection(db, "banners"),
-          where("categoria", "in", ["HPPS", "HPPS 1"]),
-          orderBy("idLote", "asc")
-        );
-      }
-      else {
-        // Busca normal para as outras categorias que não foram unificadas
-        q = query(
-          collection(db, "banners"),
-          where("categoria", "==", categoriaAtual),
-          orderBy("idLote", "asc")
-        );
+        q = query(collection(db, "banners"), where("categoria", "in", ["ARMAMENTO", "ARMAMENTO 1", "ARMAMENTO 2", "ARMAMENTO 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "EXPOSIÇÃO") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["EXPOSIÇÃO", "EXPOSIÇÃO 1", "EXPOSIÇÃO 2", "EXPOSIÇÃO 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "TECNICAS ESPECIAIS") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["TECNICAS ESPECIAIS", "TECNICAS ESPECIAIS 1", "TECNICAS ESPECIAIS 2", "TECNICAS ESPECIAIS 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "HPPS") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["HPPS", "HPPS 1"]), orderBy("idLote", "asc"));
+      } else {
+        q = query(collection(db, "banners"), where("categoria", "==", categoriaAtual), orderBy("idLote", "asc"));
       }
 
       const querySnapshot = await getDocs(q);
@@ -225,6 +202,11 @@ window.render = async function (dadosManuais = null) {
       console.error("Erro ao buscar dados:", error);
       return alert("Erro ao carregar banners.");
     }
+  }
+
+  // Atualiza o número no círculo (badge)
+  if (spanContador) {
+    spanContador.innerText = banners.length;
   }
 
   lista.innerHTML = "";
