@@ -367,7 +367,7 @@ window.confirmarExclusao = async function () {
 
   try {
     await deleteDoc(doc(db, "banners", selecionado.docId));
-    alert("Excluído com sucesso!");
+    
     fecharModais();
     limparDetalhes();
     await render();
