@@ -133,6 +133,14 @@ window.initCategorias = function () {
   });
 };
 
+// Função para configurar a tela de cautelados
+window.abrirCautelados = async function() {
+    categoriaAtual = "SISTEMA_CAUTELADOS"; // Nome interno para o filtro
+    document.getElementById("tituloCategoria").innerText = "MATERIAIS CAUTELADOS";
+    showTela('categoria'); // Abre a tela padrão de listagem
+    await render(); // Chama a busca no banco
+};
+
 window.showTela = function (id) {
   // Esconde todas as telas limpando a classe active
   document.querySelectorAll(".tela").forEach((t) => {
@@ -178,11 +186,19 @@ window.render = async function (dadosManuais = null) {
   if (dadosManuais) {
     banners = dadosManuais;
   } else {
-    try {
+  try {
       let q;
       
-      // Mantendo sua lógica de categorias unificadas
-      if (categoriaAtual === "ARMAMENTO") {
+      // 1. SE FOR CAUTELADOS: Busca em TODOS os documentos onde status é Indisponível
+      if (categoriaAtual === "SISTEMA_CAUTELADOS") {
+        q = query(
+          collection(db, "banners"), 
+          where("status", "==", "Indisponível")
+          // Removi o orderBy aqui para evitar erro de índice inicial no Firebase
+        );
+      } 
+      // 2. LOGICA DAS OUTRAS CATEGORIAS (Mantenha como está abaixo)
+      else if (categoriaAtual === "ARMAMENTO") {
         q = query(collection(db, "banners"), where("categoria", "in", ["ARMAMENTO", "ARMAMENTO 1", "ARMAMENTO 2", "ARMAMENTO 3"]), orderBy("idLote", "asc"));
       } else if (categoriaAtual === "EXPOSIÇÃO") {
         q = query(collection(db, "banners"), where("categoria", "in", ["EXPOSIÇÃO", "EXPOSIÇÃO 1", "EXPOSIÇÃO 2", "EXPOSIÇÃO 3"]), orderBy("idLote", "asc"));
@@ -198,6 +214,12 @@ window.render = async function (dadosManuais = null) {
       querySnapshot.forEach((docSnap) => {
         banners.push({ docId: docSnap.id, ...docSnap.data() });
       });
+
+      // Se for a tela de cautelados, vamos ordenar manualmente por ID aqui no código
+      if (categoriaAtual === "SISTEMA_CAUTELADOS") {
+        banners.sort((a, b) => a.idLote.localeCompare(b.idLote));
+      }
+
     } catch (error) {
       console.error("Erro ao buscar dados:", error);
       return alert("Erro ao carregar banners.");
@@ -512,3 +534,39 @@ document.addEventListener('keydown', (e) => {
     itens[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 });
+// Função para abrir a tela de cautelados
+window.abrirCautelados = async function() {
+    categoriaAtual = "SISTEMA_CAUTELADOS"; // Marcador interno
+    document.getElementById("tituloCategoria").innerText = "MATERIAIS CAUTELADOS";
+    showTela('categoria'); // Reutiliza a tela de listagem
+    await render(); // Chama o banco de dados
+};
+
+// Ajuste necessário na função render para reconhecer essa busca global
+// Procure a função window.render e substitua APENAS o bloco do "try { ... }" por este:
+    try {
+      let q;
+      
+      if (categoriaAtual === "SISTEMA_CAUTELADOS") {
+        // BUSCA GLOBAL: Pega tudo que está 'Indisponível' em qualquer categoria
+        q = query(collection(db, "banners"), where("status", "==", "Indisponível"), orderBy("idLote", "asc"));
+      } 
+      else if (categoriaAtual === "ARMAMENTO") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["ARMAMENTO", "ARMAMENTO 1", "ARMAMENTO 2", "ARMAMENTO 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "EXPOSIÇÃO") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["EXPOSIÇÃO", "EXPOSIÇÃO 1", "EXPOSIÇÃO 2", "EXPOSIÇÃO 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "TECNICAS ESPECIAIS") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["TECNICAS ESPECIAIS", "TECNICAS ESPECIAIS 1", "TECNICAS ESPECIAIS 2", "TECNICAS ESPECIAIS 3"]), orderBy("idLote", "asc"));
+      } else if (categoriaAtual === "HPPS") {
+        q = query(collection(db, "banners"), where("categoria", "in", ["HPPS", "HPPS 1"]), orderBy("idLote", "asc"));
+      } else {
+        q = query(collection(db, "banners"), where("categoria", "==", categoriaAtual), orderBy("idLote", "asc"));
+      }
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((docSnap) => {
+        banners.push({ docId: docSnap.id, ...docSnap.data() });
+      });
+    } catch (error) {
+      console.error("Erro ao buscar cautelados:", error);
+    }
